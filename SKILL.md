@@ -2,7 +2,7 @@
 name: agents-best-practices
 description: "Use this skill when designing, generating an MVP blueprint for, auditing, troubleshooting, refactoring, or explaining an agentic harness for any domain. Covers provider-neutral agent architecture for OpenAI, Anthropic, and OpenAI-compatible APIs: agent loops, tool design, record provenance, interactive presentation, user-memory lifecycles, environment-adaptive tools, speculative tool execution, late-bound capabilities, permissions, system prompts, planning, goals, always-on agents and durable runtime, adaptive agent teams, context compaction, memory, skills, MCP/external connectors, public-board communications, realtime voice agents, hardware agents and board deployment, self-refining recursive harnesses, programmable context, continual refinement, observability, evals, prompt caching, agent-legible environments, feedback loops, and safety."
 metadata:
-  version: "1.16.0"
+  version: "1.17.0"
   scope: "provider-neutral-agent-harness"
   file_policy: "markdown-only"
 ---
@@ -58,7 +58,7 @@ Use this skill for prompts involving any of these intents:
 - build an always-on agent service or durable session with accepted-input receipts, task ownership, application state, restart recovery, reconnecting observers, or recurring source collection and delivery bookkeeping;
 - design collaborating agent teams with distinct approaches, shared work awareness, finding exchange, or evidence-driven reassignment;
 - add context compaction, memory, retrieval, scoped instructions, or prompt hierarchies;
-- design a recursive language model (RLM), programmable-context runtime, self-refining or continual harness, retained child agents, or executable skills;
+- design a recursive language model (RLM), programmable-context runtime, self-refining or continual harness, task-local harness search, retained child agents, or executable skills;
 - build or install a hardware/embedded agent, flash an agent to a board, preserve device identity during an update, or debug its resource and wake behavior;
 - design or debug voice agents, speech pipelines, realtime turn taking, interruptions, playback, or corrections during tool work;
 - attach Agent Skills, reusable workflows, MCP servers, external connectors, or tool search;
@@ -130,9 +130,11 @@ For recurring monitoring, use the [collection and delivery contract](references/
 
 ## Advanced Recursive and Continual Harness Mode
 
-Use this mode only when the user explicitly asks for programmable context, recursive execution, retained children, continual refinement, or executable skills. Treat it as post-MVP: establish a measured single-loop baseline first, then read [self-refining-recursive-harnesses.md](references/self-refining-recursive-harnesses.md) together with the context, workflow, permission, security, and eval references. For resident operation or scheduled re-entry alone, use [Always-on Agent and Durable Runtime Mode](#always-on-agent-and-durable-runtime-mode).
+Use this mode only when the user explicitly asks for programmable context, recursive execution, retained children, continual refinement, task-local harness search, or executable skills. Treat it as post-MVP: establish a measured single-loop baseline first, then read [self-refining-recursive-harnesses.md](references/self-refining-recursive-harnesses.md) together with the context, workflow, permission, security, and eval references. For resident operation or scheduled re-entry alone, use [Always-on Agent and Durable Runtime Mode](#always-on-agent-and-durable-runtime-mode).
 
 Make the context representation, recursive unit, mutable state, promotion scope, lifecycle, budgets, validation probes, and rollback path explicit. Keep base authority, permission enforcement, credentials, budgets, and evaluation policy outside the mutable surface.
+
+For per-task harness search, use [task-local contrastive refinement](references/self-refining-recursive-harnesses.md#task-local-contrastive-refinement) and its [evals](references/evals.md#task-local-harness-search-evals). This can run without programmable context or recursive children; distinguish behavioral evidence from verified correctness and broader promotion.
 
 ## Adaptive Agent Team Mode
 
@@ -164,7 +166,7 @@ Require host-owned eligibility, permission at physical dispatch, isolated dispos
 - Read [planning-and-goals.md](references/planning-and-goals.md) to distinguish read-only planning mode from execution-time progress scaffolds, and for approval-gated execution, goals, checkpoints, and stopping conditions.
 - Read [workflow-orchestration.md](references/workflow-orchestration.md) for planner-generated workflows, bounded work packets, worker/verifier contexts, integration, durable workflow state, and orchestration anti-patterns.
 - Read [adaptive-agent-teams.md](references/adaptive-agent-teams.md) for post-MVP approach portfolios, shared work intentions, selective finding exchange, and evidence-linked team reallocation.
-- Read [self-refining-recursive-harnesses.md](references/self-refining-recursive-harnesses.md) for strict RLM and RLM-inspired patterns, programmable context, recursive execution units, retained child protocols, continual refinement, and executable skills.
+- Read [self-refining-recursive-harnesses.md](references/self-refining-recursive-harnesses.md) for strict RLM and RLM-inspired patterns, programmable context, recursive execution units, retained child protocols, continual refinement, task-local contrastive harness search, and executable skills.
 - Read [skills-and-connectors.md](references/skills-and-connectors.md) for Agent Skills, progressive disclosure, predictive loading, MCP, external connectors, tool search, and attachment strategy. For public-board communication, use its [public disclosure and publication contract](references/skills-and-connectors.md#agent-communication-via-public-boards).
 - Read [system-prompts-instructions.md](references/system-prompts-instructions.md) for system/developer/user instruction hierarchy and prompt templates.
 - Read [provider-api-patterns.md](references/provider-api-patterns.md) for OpenAI, Anthropic, and OpenAI-compatible API implementation patterns.

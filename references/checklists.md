@@ -323,6 +323,10 @@ Use [adaptive agent teams](adaptive-agent-teams.md) for the contracts and [adapt
 - [ ] Every applied change runs a predefined probe and records an observed outcome.
 - [ ] Regressions trigger automatic rollback or quarantine; promotion requires explicit evidence.
 - [ ] Changes remain session-local by default; cross-session or global promotion has a separate gate.
+- [ ] Task-local search pins common inputs/configuration and improvement guidance, isolates resettable probes, and records component effects or confounders.
+- [ ] Every composed harness is executed; selection preserves output-to-harness identity and has an explicit failure/no-adoption path.
+- [ ] Width/depth and proposal-lane comparisons use declared aggregate budgets that include selection, reflection, retries, and failed runs.
+- [ ] Behavioral contrasts and output preference remain distinct from correctness; grader access is blocked and broader lessons pass [search evals](evals.md#task-local-harness-search-evals).
 - [ ] Executable skill changes receive sandbox, dependency, capability, provenance, and regression checks.
 - [ ] Retained children handle cancellation, recovery, message backpressure, idempotency, attribution, and garbage collection; resident/scheduled runs pass the [always-on checklist](#always-on-and-durable-runtime-checklist).
 - [ ] Adversarial evals cover persistent prompt injection, reward hacking, authority escalation, cross-session leakage, and unbounded state growth.

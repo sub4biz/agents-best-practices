@@ -202,6 +202,8 @@ Agent  > Treat this as a post-MVP architecture. Keep large inputs and child
 
 Use [`references/self-refining-recursive-harnesses.md`](references/self-refining-recursive-harnesses.md) with the context, workflow, permissions, security, and eval references.
 
+For bounded refinement on one task, use [task-local contrastive refinement](references/self-refining-recursive-harnesses.md#task-local-contrastive-refinement): probe candidate harness edits, compose supported changes, and execute the composition. This post-MVP option does not require a resident runtime or recursive children; [search evals](references/evals.md#task-local-harness-search-evals) separate proxy judgments from correctness and transferable gains.
+
 ### Case 6 - Speculatively overlap safe programmatic calls
 
 You have a measured code-mode harness whose critical path is dominated by expensive calls that become identifiable while the model is still generating the program.
@@ -327,6 +329,7 @@ For scheduled monitors and briefs, use its [recurring collection and delivery co
 - **"When should a large task become a decomposed workflow?"** -> use [`references/workflow-orchestration.md`](references/workflow-orchestration.md).
 - **"How can an agent safely discover and bind tools in an unfamiliar environment?"** -> use [`references/environment-adaptive-tools.md`](references/environment-adaptive-tools.md).
 - **"How do I build an RLM, programmable-context agent, or continual refinement loop?"** -> use [`references/self-refining-recursive-harnesses.md`](references/self-refining-recursive-harnesses.md).
+- **"How can an agent adapt its harness to an unfamiliar task without a ground-truth verifier?"** -> use [task-local contrastive refinement](references/self-refining-recursive-harnesses.md#task-local-contrastive-refinement) and [search evals](references/evals.md#task-local-harness-search-evals).
 - **"Can a code-mode agent start safe tool calls before generation finishes?"** -> use [`references/speculative-tool-execution.md`](references/speculative-tool-execution.md).
 - **"How should auto-compaction preserve active work?"** -> use [`references/context-memory-compaction.md`](references/context-memory-compaction.md).
 - **"What is the smallest safe coding-agent harness?"** -> use [`references/coding-agents.md`](references/coding-agents.md).

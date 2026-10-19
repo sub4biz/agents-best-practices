@@ -429,6 +429,24 @@ task quality, cost, latency, and intervention rate over time
 
 Report results against the frozen baseline and attribute lift to the specific accepted diff. If repeated updates cannot beat that baseline without unacceptable regressions, keep automated application disabled. See [self-refining recursive harnesses](self-refining-recursive-harnesses.md) for the refinement contract these cases exercise.
 
+### Task-local harness search evals
+
+For [task-local contrastive refinement](self-refining-recursive-harnesses.md#task-local-contrastive-refinement), separate three claims: a behavioral difference was observed, an existing output was preferred, and a harness change improved correctness or transfers to new tasks. A same-model comparison without an oracle supports the first two only provisionally. Calibrate its rubric and error rate on independently verifiable or human-reviewed cases before unattended use, and require held-out evidence for reusable promotion.
+
+| Comparison or failure probe | Required evidence |
+|---|---|
+| Unchanged executor with repeated runs and the same output selector versus harness search | Isolate additional sampling/selection benefit from edited-harness benefit; match total resource limits and report actual usage. |
+| Candidates only versus evidence-based composition; composition without probes versus with probes | Separate proposal diversity, additional execution, and composition effects; execute each composed snapshot and detect interactions that regress despite useful individual edits. |
+| Cross-domain-only, domain-only, and mixed proposal lanes | Hold candidate counts and budgets fixed; measure whether distinct hypotheses add useful coverage. |
+| Parallel width versus sequential depth | Hold task/model/environment and aggregate budgets comparable, and report wall time separately; equal step labels or candidate counts do not imply equal total cost. |
+| Anonymous selection with candidate-order permutations; refined-only pool versus baseline-inclusive/no-adoption pool | Measure judge/order bias, false-improvement adoption, exclusion effects, and selector failures; distinguish preference from task correctness. |
+| Frozen, empty, retrieved-only, and contrast-supported improvement-guidance libraries | Separate same-task adaptation from learning how to refine; vary stream order and test new tasks/domains without future-task leakage or inherited task answers. |
+| Stochastic probes, coupled edits, contaminated inputs, incomplete runs, and non-resettable environments | Preserve uncertainty and confounded/no-effect outcomes; do not convert a partial or unsafe comparison into evidence of an improved component. |
+
+Keep hidden answers, grading rubrics, and verdict artifacts outside proposer, executor, composer, selector, and reflection access, including through network retrieval or stale run directories. A filename filter or prompt prohibition is not an access boundary. Fix and record the task/input, environment, model, harness, library, selector, and grader revisions; a task-order seed does not make model sampling deterministic. Repeat comparisons where practical and report paired uncertainty under the [existing eval methodology](#scaffold-ablations).
+
+Report final task quality against the frozen baseline, false-improvement acceptance, no-adoption rate, invalid/failed stages, transfer regressions, and the full cost/latency of references, proposals, probes, compositions, selection, reflection, and retries. Treat unscored or missing evaluations as missing evidence and report coverage. Library growth, duplicate lessons, and unsupported causal claims remain part of the existing self-refinement metrics; do not count a selected output as verified learning.
+
 ## Performance optimization and regression ratchets
 
 Use this contract when performance improvement is an explicit objective. A measured baseline and regression gate can serve an MVP; unattended optimization, recurring monitoring, and parallel workstreams remain post-MVP. Apply the existing [feedback loop](agent-legibility-feedback-loops.md#feedback-loops) within its authorized scope.

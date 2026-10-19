@@ -243,6 +243,34 @@ Canonical guidance lives in [tools and permissions](tools-and-permissions.md#rec
 - Recursive Agent Harnesses paper: https://arxiv.org/abs/2606.13643
 - Voyager paper: https://arxiv.org/abs/2305.16291
 
+### Harness²: task-local contrastive search and improvement experience
+
+- Paper: [Harness²: Recursive Agent Harnessing for an Open World, arXiv:2610.14224v1](https://arxiv.org/html/2610.14224v1), submitted October 9, 2026; sections 2.1–2.3 and experimental setup inspected October 19.
+- Implementation: [google-research/harness2 at `1cfe254e8d25b15f37048c3730134686abe60335`](https://github.com/google-research/harness2/tree/1cfe254e8d25b15f37048c3730134686abe60335), committed October 14, 2026 UTC; README, experiment documentation, relevant source, and workflow tests inspected October 19. Upstream tests and model-backed benchmarks were not executed; reported performance gains were not independently reproduced.
+- Search evidence: [recursion scheduling and proposal validation](https://github.com/google-research/harness2/blob/1cfe254e8d25b15f37048c3730134686abe60335/harness2/core/recursion.py), [rollout/stage ledger](https://github.com/google-research/harness2/blob/1cfe254e8d25b15f37048c3730134686abe60335/harness2/core/ledger.py), and [anonymous selection](https://github.com/google-research/harness2/blob/1cfe254e8d25b15f37048c3730134686abe60335/harness2/core/selection.py).
+- Retention evidence: [reflection prompts](https://github.com/google-research/harness2/blob/1cfe254e8d25b15f37048c3730134686abe60335/harness2/core/prompts.py#L1106), [library eligibility and storage](https://github.com/google-research/harness2/blob/1cfe254e8d25b15f37048c3730134686abe60335/harness2/core/library.py#L106), and [task sequencing/resume](https://github.com/google-research/harness2/blob/1cfe254e8d25b15f37048c3730134686abe60335/harness2/core/schedule.py).
+- Validation scope: [workflow tests](https://github.com/google-research/harness2/blob/1cfe254e8d25b15f37048c3730134686abe60335/tests/test_workflow.py), [experiment and contamination notes](https://github.com/google-research/harness2/blob/1cfe254e8d25b15f37048c3730134686abe60335/docs/EXPERIMENTS.md), [grader tripwires](https://github.com/google-research/harness2/blob/1cfe254e8d25b15f37048c3730134686abe60335/harness2/core/context.py#L454), and [Codex executor options](https://github.com/google-research/harness2/blob/1cfe254e8d25b15f37048c3730134686abe60335/harness2/substrate/codex.py#L149).
+
+This is a composition of known test-time search, harness editing, execution comparison, and continual experience mechanisms with frozen model weights. Its useful addition here is task-local behavioral contrast followed by selective harness composition, plus experience about future refinement. It does not establish a new model architecture, training method, autonomy level, or a requirement for recursive child agents.
+
+Observed implementation contracts:
+
+| Mechanism | Pinned behavior |
+|---|---|
+| Contrastive refinement | General/invariant and domain-specific proposals edit component files; each is executed on the same task. Composition reads diffs, trajectories, deliverables, and decision history, then the composed harness is executed. |
+| Width versus depth | Parallel mode probes `k` candidates per lane and makes `k` independent compositions from the full pool. Sequential mode carries the current composition and accumulated evidence through `k` steps. Both schedule `k` references, `2k` candidate probes, and `k` composed executions; retries, selection, and reflection add work beyond that `4k` rollout identity. |
+| Adoption | Only composed outputs enter selection: all parallel compositions or all sequential checkpoints, excluding reference and raw candidate outputs. At `k=1`, the sole composition is delivered directly; larger pools use anonymous deliverable selection. This is adoption, not verified optimality or baseline superiority. |
+| Attribution and retention | Reflection requests component effects and confounders and permits no experience entry. Storage requires nonempty applicability cue, lesson, and evidence; an adopted output alone does not guarantee library retention. Eligible entries retain the full adopted harness and experience. |
+| Cross-task state | Each new task starts from the original execution harness; earlier same-domain entries guide proposals/composition. Ordered task prefixes and run namespaces limit reuse; the prior winner is not automatically the next task's installed default. |
+
+Important limits and failure semantics:
+
+- Invalid proposed trees receive one correction attempt before inheriting the current harness. Structural acceptance does not verify behavioral improvement. Tests exercise budgeting, correction feedback, reflection eligibility, temporal library access, resume, and failed-selection exclusion; they do not establish real-model efficacy or transfer.
+- The final pool has no reference-output abstention option, even though a composer can retain the current harness. Failed selection can record the first final as a fallback while remaining unsuccessful; unsuccessful selection is excluded from grading and retention. The generic unchanged-baseline/no-adoption recommendation is stronger guidance, not an implemented release gate.
+- Refinement uses unscored execution views; benchmark scoring runs separately. Known grader paths/strings are screened as tripwires. Executor networking remains unrestricted and the Codex adapter disables its sandbox and approvals; the experiment guide reports a validation rollout retrieving a public task rubric. “Without ground-truth feedback” describes the intended information flow, not a proven contamination barrier.
+
+Canonical additions live in [task-local contrastive refinement](self-refining-recursive-harnesses.md#task-local-contrastive-refinement) and [search evals](evals.md#task-local-harness-search-evals). Probe isolation, explicit baseline/no-adoption gates, independently calibrated judgments, complete cost accounting, and broader promotion controls are this skill's recommended safeguards; do not attribute them all to the release. Reuse the existing ledger, workflow, memory, permissions, security, and general refinement owners instead of a second architecture profile.
+
 ## Adaptive agent teams
 
 - OpenAI, [On the Navier–Stokes Millennium Prize Problem](https://openai.com/index/navier-stokes-solution/), published September 8, 2026; updated September 10; rechecked September 30. “How we found the proof” is the public orchestration account.

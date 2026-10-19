@@ -30,6 +30,13 @@
 - [ ] Branch-state inheritance, version checks, commit timing, and failure behavior are explicit.
 - [ ] Router/classifier/retry/compaction costs count toward the same budget; routing cannot change permissions.
 
+## Native generation-state checklist
+
+- [ ] Backend text/latent modes, exit rules, tool yielding, cancellation, and span/total computation limits are verified rather than inferred from chat compatibility.
+- [ ] Native continuation is bound to compatible model/adapter/runtime state; missing state and lossy restarts cannot masquerade as exact resume.
+- [ ] Transcripts, summaries, and diagnostic projections are not used as equivalent nontext-state restoration or authority evidence.
+- [ ] [Continuation and serving evals](evals.md#native-generation-state-and-hybrid-serving-evals) separate training/runtime effects, latent/text work, memory growth, measured economics, and diagnostic claim limits.
+
 ## Runtime configuration event checklist
 
 - [ ] Ordered, versioned instruction/tool changes have authorized origin, scope, and a safe commit boundary.
